@@ -1,7 +1,8 @@
 package com.dev9.proctorDemo.domain;
 
-import com.dev9.proctorDemo.ProctorGroups;
-import com.dev9.proctorDemo.ProctorGroupsManager;
+import com.dev9.proctorDemo.GeoRangeTest;
+import com.dev9.proctorDemo.GeoRangeTest;
+import com.dev9.proctorDemo.GeoRangeTestManager;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
@@ -13,6 +14,7 @@ import com.indeed.proctor.common.ProctorUtils;
 import com.indeed.proctor.common.UrlProctorLoader;
 import com.indeed.proctor.common.model.TestType;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Nonnull;
@@ -29,10 +31,10 @@ import static net.logstash.logback.marker.Markers.appendEntries;
 @Slf4j
 public class DefinitionManager {
 
-  private static final String DEFAULT_SPEC = "/com/dev9/proctorDemo/ProctorGroups.json";
+  private static final String DEFAULT_SPEC = "/com/dev9/proctorDemo/GeoRangeTest.json";
 
   public static final String DEFAULT_DEFINITION =
-      "https://gist.githubusercontent.com/russellpwirtz/c88632755a07ddf4cd1b92b87022e1cd/raw/7862f3358f6f584fbc12435b52e16a947050a56f/proctor-location-test";
+      "https://gist.githubusercontent.com/russellpwirtz/c88632755a07ddf4cd1b92b87022e1cd/raw/5816f5b1a25257242e7afa6f4b5588587d2063bd/proctor-location-test";
 
   private Map<String, Proctor> proctorCache = Maps.newHashMap();
   private Random random = new Random();
@@ -46,24 +48,21 @@ public class DefinitionManager {
     }
   }
 
-  public ProctorGroups getProctorGroups(
+  public GeoRangeTest getGeoRangeTest(
       @Nonnull final HttpServletRequest request,
       @Nonnull final HttpServletResponse response,
       @Nonnull String userId,
       @Nonnull String definitionUrl) {
     final Proctor proctor = load(definitionUrl, false);
-    final ProctorGroupsManager groupsManager = new ProctorGroupsManager(Suppliers.ofInstance(proctor));
+    final GeoRangeTestManager groupsManager = new GeoRangeTestManager(Suppliers.ofInstance(proctor));
     final Identifiers identifiers = new Identifiers(TestType.USER, userId);
     final ProctorResult result = groupsManager.determineBuckets(request, response, identifiers, true);
 
-    ProctorGroups groups = new ProctorGroups(result);
+    MDC.put("userKey", userId);
 
-    ImmutableMap map = ImmutableMap.of(
-        "userId", userId,
-        "name", groups.getLocationTest().getFullName(),
-        "payload", groups.getLocationTestPayload());
+    GeoRangeTest groups = new GeoRangeTest(result);
 
-    log.info(appendEntries(map), "bucket info");
+    logResults(userId, groups);
 
     return groups;
   }
@@ -85,5 +84,18 @@ public class DefinitionManager {
     }
 
     return proctor;
+  }
+
+  private void logResults(String userId, GeoRangeTest groups) {
+    if (groups.getGeoTestPayload() != null) {
+      log.info(appendEntries(getMap(userId, groups)), "bucket info");
+    }
+  }
+
+  private Map<?, ?> getMap(String userId, GeoRangeTest groups) {
+    return ImmutableMap.of(
+        "userId", userId,
+        "name", groups.getGeoTest().getFullName(),
+        "payload", groups.getGeoTestPayload());
   }
 }

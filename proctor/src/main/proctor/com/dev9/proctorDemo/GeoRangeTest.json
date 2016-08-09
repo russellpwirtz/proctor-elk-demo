@@ -1,0 +1,17 @@
+{
+    "tests" : {
+        "geoTest": {
+            "buckets":{
+                "inactive":-1,
+                "mileRangeA":0,
+                "mileRangeB":1,
+                "mileRangeC":2,
+                "mileRangeD":3
+            },
+            "fallbackValue": -1,
+            "payload" : {
+                "type" : "longValue"
+            }
+        }
+    }
+}
