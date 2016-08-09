@@ -25,7 +25,6 @@
         <org.springframework.version>3.1.1.RELEASE</org.springframework.version>
         <proctor.version>1.1.0</proctor.version>
         <docker.image.prefix>devnine</docker.image.prefix>
-        <!--<tomcat.version>8.5.4</tomcat.version>-->
         <tomcat.version>7.0.63</tomcat.version>
     </properties>
 
@@ -58,12 +57,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web-services</artifactId>
-            <!--<exclusions>-->
-                <!--<exclusion>-->
-                    <!--<artifactId>logback-classic</artifactId>-->
-                    <!--<groupId>ch.qos.logback</groupId>-->
-                <!--</exclusion>-->
-            <!--</exclusions>-->
         </dependency>
 
         <dependency>
@@ -87,36 +80,12 @@
             <groupId>com.indeed</groupId>
             <artifactId>proctor-common</artifactId>
             <version>${proctor.version}</version>
-            <!--<exclusions>-->
-                <!--<exclusion>-->
-                    <!--<artifactId>proctor-tomcat-deps</artifactId>-->
-                    <!--<groupId>com.indeed</groupId>-->
-                <!--</exclusion>-->
-                <!--<exclusion>-->
-                    <!--<artifactId>log4j</artifactId>-->
-                    <!--<groupId>log4j</groupId>-->
-                <!--</exclusion>-->
-                <!--<exclusion>-->
-                    <!--<artifactId>spring-beans</artifactId>-->
-                    <!--<groupId>org.springframework</groupId>-->
-                <!--</exclusion>-->
-            <!--</exclusions>-->
         </dependency>
 
         <dependency>
             <groupId>com.indeed</groupId>
             <artifactId>proctor-consumer</artifactId>
             <version>${proctor.version}</version>
-            <!--<exclusions>-->
-                <!--<exclusion>-->
-                    <!--<artifactId>proctor-tomcat-deps</artifactId>-->
-                    <!--<groupId>com.indeed</groupId>-->
-                <!--</exclusion>-->
-                <!--<exclusion>-->
-                    <!--<artifactId>spring-web</artifactId>-->
-                    <!--<groupId>org.springframework</groupId>-->
-                <!--</exclusion>-->
-            <!--</exclusions>-->
         </dependency>
 
         <dependency>
@@ -170,6 +139,4 @@
             </plugin>
         </plugins>
     </build>
-
-
 </project>
