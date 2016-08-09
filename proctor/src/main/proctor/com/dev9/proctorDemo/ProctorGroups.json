@@ -1,0 +1,17 @@
+{
+    "tests" : {
+        "locationTest": {
+            "buckets":{
+                "inactive":-1,
+                "Fremont":0,
+                "Magnolia":1,
+                "Ballard":2,
+                "WestSeattle":3
+            },
+            "fallbackValue": -1,
+            "payload" : {
+                "type" : "stringValue"
+            }
+        }
+    }
+}

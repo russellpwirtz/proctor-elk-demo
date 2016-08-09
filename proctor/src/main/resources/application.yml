@@ -1,0 +1,6 @@
+spring.profiles.active: dev
+spring.application.name: proctor
+#logging.file: /var/log/proctor-docker.log
+---
+spring:
+  profiles: dev
